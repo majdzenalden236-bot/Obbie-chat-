@@ -1,0 +1,1615 @@
+<!DOCTYPE html>
+<html lang="en" >
+<head>
+  <meta charset="UTF-8">
+  <title>Untitled</title>
+  
+
+</head>
+<body>
+<!-- partial:index.partial.html -->
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Obbie Chat - تواصل اجتماعي</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --primary-bg: #121212;
+            --secondary-bg: #1e1e1e;
+            --card-bg: #1e1e1e;
+            --hover-bg: #2a2a2a;
+            --primary-text: #e4e4e4;
+            --secondary-text: #a8a8a8;
+            --crimson: #DC143C;
+            --crimson-dark: #B22222;
+            --border-color: #333;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        body {
+            background-color: var(--primary-bg);
+            color: var(--primary-text);
+            min-height: 100vh;
+            padding-top: 56px;
+            padding-bottom: 60px;
+            overflow-x: hidden;
+        }
+
+        /* شريط التنقل العلوي */
+        .header {
+            background-color: var(--secondary-bg);
+            border-bottom: 1px solid var(--border-color);
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 100;
+            height: 56px;
+            padding: 0 16px;
+        }
+
+        .header-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            height: 100%;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            color: var(--crimson);
+            font-weight: bold;
+            font-size: 20px;
+        }
+
+        .logo-a {
+            background: linear-gradient(45deg, var(--crimson), #FF5252);
+            border-radius: 50%;
+            width: 36px;
+            height: 36px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-left: 8px;
+            font-weight: bold;
+        }
+
+        .header-icons {
+            display: flex;
+            gap: 16px;
+        }
+
+        .header-icon {
+            color: var(--secondary-text);
+            font-size: 20px;
+            cursor: pointer;
+        }
+
+        .header-icon.search {
+            display: none;
+        }
+
+        /* شريط البحث */
+        .search-container {
+            background-color: var(--secondary-bg);
+            padding: 12px 16px;
+            display: none;
+            position: fixed;
+            top: 56px;
+            left: 0;
+            right: 0;
+            z-index: 99;
+        }
+
+        .search-bar {
+            display: flex;
+            align-items: center;
+            background-color: #3a3a3a;
+            border-radius: 20px;
+            padding: 8px 16px;
+        }
+
+        .search-bar i {
+            color: var(--secondary-text);
+            margin-left: 8px;
+        }
+
+        .search-bar input {
+            background: none;
+            border: none;
+            color: var(--primary-text);
+            width: 100%;
+            font-size: 16px;
+        }
+
+        .search-bar input:focus {
+            outline: none;
+        }
+
+        /* المحتوى الرئيسي */
+        .main-content {
+            width: 100%;
+            max-width: 100%;
+            margin: 0 auto;
+            display: block;
+        }
+
+        /* إخفاء الصفحات غير النشطة */
+        .page {
+            display: none;
+        }
+
+        .page.active {
+            display: block;
+        }
+
+        /* قصص */
+        .stories {
+            display: flex;
+            gap: 8px;
+            padding: 12px 16px;
+            overflow-x: auto;
+            -webkit-overflow-scrolling: touch;
+        }
+
+        .story {
+            flex: 0 0 auto;
+            width: 80px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .story-avatar {
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            background: linear-gradient(45deg, var(--crimson), #FF5252);
+            padding: 2px;
+            margin-bottom: 8px;
+        }
+
+        .story-avatar-inner {
+            width: 100%;
+            height: 100%;
+            border-radius: 50%;
+            background-color: var(--card-bg);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 24px;
+        }
+
+        .story-username {
+            font-size: 12px;
+            text-align: center;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            width: 100%;
+        }
+
+        .create-story {
+            background-color: var(--card-bg);
+        }
+
+        .create-story .story-avatar {
+            background: var(--border-color);
+        }
+
+        .create-story .story-avatar-inner {
+            color: var(--crimson);
+        }
+
+        /* إنشاء منشور */
+        .create-post {
+            background-color: var(--card-bg);
+            border-radius: 8px;
+            padding: 16px;
+            margin: 8px 16px;
+        }
+
+        .create-post-header {
+            display: flex;
+            align-items: center;
+            margin-bottom: 16px;
+        }
+
+        .user-avatar {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background-color: #3a3a3a;
+            margin-left: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .create-post-button {
+            flex: 1;
+            background-color: #3a3a3a;
+            border: none;
+            border-radius: 20px;
+            padding: 10px 16px;
+            text-align: right;
+            color: var(--secondary-text);
+            cursor: pointer;
+            font-size: 14px;
+        }
+
+        .create-post-options {
+            display: flex;
+            justify-content: space-around;
+            border-top: 1px solid var(--border-color);
+            padding-top: 16px;
+        }
+
+        .post-option {
+            display: flex;
+            align-items: center;
+            background: none;
+            border: none;
+            color: var(--secondary-text);
+            cursor: pointer;
+            padding: 4px;
+            border-radius: 8px;
+            font-size: 12px;
+        }
+
+        .post-option i {
+            margin-left: 4px;
+            font-size: 16px;
+        }
+
+        /* منشورات */
+        .post {
+            background-color: var(--card-bg);
+            border-radius: 8px;
+            padding: 16px;
+            margin: 16px;
+        }
+
+        .post-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 12px;
+        }
+
+        .post-author {
+            display: flex;
+            align-items: center;
+        }
+
+        .author-avatar {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background-color: #3a3a3a;
+            margin-left: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .author-name {
+            font-weight: 500;
+            font-size: 14px;
+        }
+
+        .post-time {
+            font-size: 12px;
+            color: var(--secondary-text);
+        }
+
+        .post-menu {
+            background: none;
+            border: none;
+            color: var(--secondary-text);
+            font-size: 20px;
+            cursor: pointer;
+            padding: 4px;
+        }
+
+        .post-content {
+            margin-bottom: 12px;
+            font-size: 14px;
+            line-height: 1.4;
+        }
+
+        .post-image {
+            margin-top: 12px;
+            border-radius: 8px;
+            overflow: hidden;
+        }
+
+        .image-placeholder {
+            height: 200px;
+            background-color: #3a3a3a;
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--secondary-text);
+        }
+
+        .post-stats {
+            display: flex;
+            justify-content: space-between;
+            padding: 8px 0;
+            border-bottom: 1px solid var(--border-color);
+            margin-bottom: 8px;
+            color: var(--secondary-text);
+            font-size: 14px;
+        }
+
+        .likes-count {
+            display: flex;
+            align-items: center;
+        }
+
+        .likes-count i {
+            margin-left: 4px;
+            font-size: 14px;
+        }
+
+        .post-actions {
+            display: flex;
+            justify-content: space-around;
+        }
+
+        .post-action {
+            display: flex;
+            align-items: center;
+            background: none;
+            border: none;
+            color: var(--secondary-text);
+            cursor: pointer;
+            padding: 8px;
+            border-radius: 8px;
+            flex: 1;
+            justify-content: center;
+            font-size: 14px;
+        }
+
+        .post-action i {
+            margin-left: 4px;
+            font-size: 16px;
+        }
+
+        .post-action.liked {
+            color: #1877F2;
+        }
+
+        /* شريط التنقل السفلي */
+        .bottom-nav {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background-color: var(--secondary-bg);
+            border-top: 1px solid var(--border-color);
+            padding: 8px 0;
+            z-index: 100;
+            display: flex;
+            justify-content: space-around;
+        }
+
+        .nav-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            color: var(--secondary-text);
+            text-decoration: none;
+            font-size: 12px;
+            padding: 4px 12px;
+            cursor: pointer;
+        }
+
+        .nav-item.active {
+            color: var(--crimson);
+        }
+
+        .nav-item i {
+            font-size: 20px;
+            margin-bottom: 2px;
+        }
+
+        /* نافذة إنشاء منشور */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-color: rgba(0, 0, 0, 0.8);
+            z-index: 1000;
+            align-items: center;
+            justify-content: center;
+            padding: 16px;
+        }
+
+        .modal-content {
+            background-color: var(--card-bg);
+            border-radius: 12px;
+            width: 100%;
+            max-width: 500px;
+            overflow: hidden;
+        }
+
+        .modal-header {
+            padding: 16px;
+            border-bottom: 1px solid var(--border-color);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .modal-header h2 {
+            font-size: 18px;
+        }
+
+        .close-modal {
+            background: none;
+            border: none;
+            color: var(--secondary-text);
+            font-size: 24px;
+            cursor: pointer;
+            padding: 0;
+            width: 30px;
+            height: 30px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .modal-body {
+            padding: 16px;
+        }
+
+        .post-textarea {
+            width: 100%;
+            background-color: var(--primary-bg);
+            border: none;
+            border-radius: 8px;
+            padding: 16px;
+            color: var(--primary-text);
+            resize: none;
+            min-height: 150px;
+            margin-bottom: 16px;
+            font-size: 16px;
+        }
+
+        .post-textarea:focus {
+            outline: none;
+        }
+
+        .modal-actions {
+            display: flex;
+            justify-content: space-between;
+            padding: 16px;
+            border-top: 1px solid var(--border-color);
+        }
+
+        .add-to-post {
+            display: flex;
+            gap: 12px;
+        }
+
+        .add-to-post button {
+            background: none;
+            border: none;
+            color: var(--secondary-text);
+            cursor: pointer;
+            padding: 8px;
+            border-radius: 50%;
+            font-size: 20px;
+            width: 40px;
+            height: 40px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .submit-post {
+            background-color: var(--crimson);
+            color: white;
+            border: none;
+            border-radius: 20px;
+            padding: 10px 24px;
+            font-weight: 500;
+            cursor: pointer;
+            font-size: 16px;
+        }
+
+        /* إشعارات */
+        .notification {
+            position: fixed;
+            top: 70px;
+            left: 50%;
+            transform: translateX(-50%);
+            background-color: var(--crimson);
+            color: white;
+            padding: 12px 20px;
+            border-radius: 8px;
+            display: none;
+            z-index: 1000;
+            text-align: center;
+            max-width: 80%;
+        }
+
+        /* صفحة المراسلة */
+        .chats-container {
+            padding: 16px;
+        }
+
+        .chat-item {
+            display: flex;
+            align-items: center;
+            padding: 12px;
+            margin-bottom: 8px;
+            background-color: var(--card-bg);
+            border-radius: 8px;
+            cursor: pointer;
+        }
+
+        .chat-item:hover {
+            background-color: var(--hover-bg);
+        }
+
+        .chat-avatar {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            background-color: #3a3a3a;
+            margin-left: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 20px;
+        }
+
+        .chat-info {
+            flex: 1;
+        }
+
+        .chat-name {
+            font-weight: 500;
+            margin-bottom: 4px;
+        }
+
+        .chat-last-message {
+            font-size: 14px;
+            color: var(--secondary-text);
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        .chat-time {
+            font-size: 12px;
+            color: var(--secondary-text);
+        }
+
+        .chat-unread {
+            background-color: var(--crimson);
+            color: white;
+            border-radius: 50%;
+            width: 20px;
+            height: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 12px;
+            margin-right: 8px;
+        }
+
+        /* صفحة المحادثة */
+        .chat-header {
+            display: flex;
+            align-items: center;
+            padding: 12px 16px;
+            background-color: var(--secondary-bg);
+            border-bottom: 1px solid var(--border-color);
+            position: fixed;
+            top: 56px;
+            left: 0;
+            right: 0;
+            z-index: 99;
+        }
+
+        .back-button {
+            background: none;
+            border: none;
+            color: var(--primary-text);
+            font-size: 20px;
+            margin-left: 16px;
+            cursor: pointer;
+        }
+
+        .chat-messages {
+            padding: 80px 16px 70px;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .message {
+            max-width: 80%;
+            padding: 10px 14px;
+            margin-bottom: 12px;
+            border-radius: 18px;
+            position: relative;
+            word-wrap: break-word;
+        }
+
+        .message-incoming {
+            background-color: var(--secondary-bg);
+            align-self: flex-start;
+            border-bottom-right-radius: 4px;
+        }
+
+        .message-outgoing {
+            background-color: var(--crimson);
+            align-self: flex-end;
+            border-bottom-left-radius: 4px;
+        }
+
+        .message-time {
+            font-size: 11px;
+            color: var(--secondary-text);
+            text-align: left;
+            margin-top: 4px;
+        }
+
+        .message-input-container {
+            position: fixed;
+            bottom: 60px;
+            left: 0;
+            right: 0;
+            background-color: var(--secondary-bg);
+            padding: 8px 16px;
+            display: flex;
+            align-items: center;
+            border-top: 1px solid var(--border-color);
+        }
+
+        .message-input {
+            flex: 1;
+            background-color: #3a3a3a;
+            border: none;
+            border-radius: 20px;
+            padding: 10px 16px;
+            color: var(--primary-text);
+            margin: 0 8px;
+        }
+
+        .message-input:focus {
+            outline: none;
+        }
+
+        .send-button {
+            background-color: var(--crimson);
+            color: white;
+            border: none;
+            border-radius: 50%;
+            width: 40px;
+            height: 40px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+        }
+
+        /* صفحة الفيديو */
+        .video-container {
+            position: relative;
+            height: calc(100vh - 116px);
+            overflow: hidden;
+        }
+
+        .video-item {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: #000;
+            display: flex;
+            align-items: flex-end;
+            justify-content: center;
+        }
+
+        .video-placeholder {
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(45deg, #333, #000);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--secondary-text);
+            font-size: 16px;
+        }
+
+        .video-info {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            padding: 16px;
+            background: linear-gradient(transparent, rgba(0, 0, 0, 0.8));
+            color: white;
+        }
+
+        .video-author {
+            display: flex;
+            align-items: center;
+            margin-bottom: 8px;
+        }
+
+        .video-description {
+            margin-bottom: 12px;
+            font-size: 14px;
+        }
+
+        .video-actions {
+            display: flex;
+            justify-content: space-around;
+            margin-top: 16px;
+        }
+
+        .video-action {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            color: white;
+        }
+
+        .video-action i {
+            font-size: 24px;
+            margin-bottom: 4px;
+        }
+
+        .video-action span {
+            font-size: 12px;
+        }
+
+        /* صفحة الأصدقاء */
+        .friends-container {
+            padding: 16px;
+        }
+
+        .friend-item {
+            display: flex;
+            align-items: center;
+            padding: 12px;
+            margin-bottom: 8px;
+            background-color: var(--card-bg);
+            border-radius: 8px;
+        }
+
+        .friend-info {
+            flex: 1;
+            margin-left: 12px;
+        }
+
+        .friend-name {
+            font-weight: 500;
+            margin-bottom: 4px;
+        }
+
+        .friend-mutual {
+            font-size: 14px;
+            color: var(--secondary-text);
+        }
+
+        .friend-action {
+            background-color: var(--crimson);
+            color: white;
+            border: none;
+            border-radius: 4px;
+            padding: 8px 16px;
+            cursor: pointer;
+        }
+
+        /* صفحة الإعدادات */
+        .settings-container {
+            padding: 16px;
+        }
+
+        .settings-item {
+            display: flex;
+            align-items: center;
+            padding: 16px;
+            margin-bottom: 8px;
+            background-color: var(--card-bg);
+            border-radius: 8px;
+            cursor: pointer;
+        }
+
+        .settings-item:hover {
+            background-color: var(--hover-bg);
+        }
+
+        .settings-icon {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background-color: #3a3a3a;
+            margin-left: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 18px;
+        }
+
+        .settings-info {
+            flex: 1;
+        }
+
+        .settings-title {
+            font-weight: 500;
+            margin-bottom: 4px;
+        }
+
+        .settings-desc {
+            font-size: 14px;
+            color: var(--secondary-text);
+        }
+
+        .settings-arrow {
+            color: var(--secondary-text);
+        }
+
+        /* تحسينات للهاتف */
+        @media (max-width: 480px) {
+            .post {
+                margin: 12px 8px;
+                padding: 12px;
+            }
+            
+            .create-post {
+                margin: 8px;
+            }
+            
+            .stories {
+                padding: 8px 12px;
+            }
+            
+            .story {
+                width: 70px;
+            }
+            
+            .story-avatar {
+                width: 56px;
+                height: 56px;
+            }
+            
+            .header-icon.search {
+                display: block;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- شريط التنقل العلوي -->
+    <header class="header">
+        <div class="header-container">
+            <div class="logo">
+                <span class="logo-a">Å</span>
+                <span>Obbie</span>
+            </div>
+            <div class="header-icons">
+                <i class="header-icon search fas fa-search"></i>
+                <i class="header-icon fas fa-comment" id="messagesIcon"></i>
+            </div>
+        </div>
+    </header>
+
+    <!-- شريط البحث -->
+    <div class="search-container" id="searchContainer">
+        <div class="search-bar">
+            <i class="fas fa-search"></i>
+            <input type="text" placeholder="بحث في Obbie Chat">
+        </div>
+    </div>
+
+    <!-- الصفحة الرئيسية -->
+    <main class="main-content page active" id="homePage">
+        <!-- قصص -->
+        <div class="stories">
+            <div class="story create-story">
+                <div class="story-avatar">
+                    <div class="story-avatar-inner">
+                        <i class="fas fa-plus"></i>
+                    </div>
+                </div>
+                <div class="story-username">قصة جديدة</div>
+            </div>
+            <div class="story">
+                <div class="story-avatar">
+                    <div class="story-avatar-inner">
+                        <i class="fas fa-user"></i>
+                    </div>
+                </div>
+                <div class="story-username">محمد</div>
+            </div>
+            <div class="story">
+                <div class="story-avatar">
+                    <div class="story-avatar-inner">
+                        <i class="fas fa-user"></i>
+                    </div>
+                </div>
+                <div class="story-username">سارة</div>
+            </div>
+            <div class="story">
+                <div class="story-avatar">
+                    <div class="story-avatar-inner">
+                        <i class="fas fa-user"></i>
+                    </div>
+                </div>
+                <div class="story-username">أحمد</div>
+            </div>
+            <div class="story">
+                <div class="story-avatar">
+                    <div class="story-avatar-inner">
+                        <i class="fas fa-user"></i>
+                    </div>
+                </div>
+                <div class="story-username">فاطمة</div>
+            </div>
+        </div>
+
+        <!-- إنشاء منشور -->
+        <div class="create-post">
+            <div class="create-post-header">
+                <div class="user-avatar">
+                    <i class="fas fa-user"></i>
+                </div>
+                <button class="create-post-button" id="createPostButton">ماذا يدور في ذهنك؟</button>
+            </div>
+            <div class="create-post-options">
+                <button class="post-option">
+                    <i class="fas fa-video" style="color: #F44336;"></i>
+                    <span>بث مباشر</span>
+                </button>
+                <button class="post-option">
+                    <i class="fas fa-image" style="color: #4CAF50;"></i>
+                    <span>صورة</span>
+                </button>
+                <button class="post-option">
+                    <i class="fas fa-smile" style="color: #FFC107;"></i>
+                    <span>شعور</span>
+                </button>
+            </div>
+        </div>
+
+        <!-- منشورات -->
+        <div class="post">
+            <div class="post-header">
+                <div class="post-author">
+                    <div class="author-avatar">
+                        <i class="fas fa-user"></i>
+                    </div>
+                    <div class="author-info">
+                        <div class="author-name">محمد أحمد</div>
+                        <div class="post-time">منذ 3 ساعات</div>
+                    </div>
+                </div>
+                <button class="post-menu">⋯</button>
+            </div>
+            <div class="post-content">
+                <p>هذا منشور تجريبي في تطبيق Obbie Chat الجديد! كيف تجدون التصميم الجديد؟</p>
+            </div>
+            <div class="post-stats">
+                <div class="likes-count">
+                    <i class="fas fa-thumbs-up"></i>
+                    <span>120</span>
+                </div>
+                <div class="comments-share">
+                    <span>25 تعليق</span>
+                    <span>10 مشاركات</span>
+                </div>
+            </div>
+            <div class="post-actions">
+                <button class="post-action like-button">
+                    <i class="far fa-thumbs-up"></i>
+                    <span>إعجاب</span>
+                </button>
+                <button class="post-action">
+                    <i class="far fa-comment"></i>
+                    <span>تعليق</span>
+                </button>
+                <button class="post-action">
+                    <i class="far fa-share-square"></i>
+                    <span>مشاركة</span>
+                </button>
+            </div>
+        </div>
+
+        <div class="post">
+            <div class="post-header">
+                <div class="post-author">
+                    <div class="author-avatar">
+                        <i class="fas fa-user"></i>
+                    </div>
+                    <div class="author-info">
+                        <div class="author-name">سارة عبدالله</div>
+                        <div class="post-time">منذ 5 ساعات</div>
+                    </div>
+                </div>
+                <button class="post-menu">⋯</button>
+            </div>
+            <div class="post-content">
+                <p>تجربة التصميم الجديد رائعة! الألوان مريحة للعين في المساء.</p>
+                <div class="post-image">
+                    <div class="image-placeholder">صورة منشور</div>
+                </div>
+            </div>
+            <div class="post-stats">
+                <div class="likes-count">
+                    <i class="fas fa-thumbs-up"></i>
+                    <span>84</span>
+                </div>
+                <div class="comments-share">
+                    <span>15 تعليق</span>
+                    <span>5 مشاركات</span>
+                </div>
+            </div>
+            <div class="post-actions">
+                <button class="post-action like-button">
+                    <i class="far fa-thumbs-up"></i>
+                    <span>إعجاب</span>
+                </button>
+                <button class="post-action">
+                    <i class="far fa-comment"></i>
+                    <span>تعليق</span>
+                </button>
+                <button class="post-action">
+                    <i class="far fa-share-square"></i>
+                    <span>مشاركة</span>
+                </button>
+            </div>
+        </div>
+
+        <div class="post">
+            <div class="post-header">
+                <div class="post-author">
+                    <div class="author-avatar">
+                        <i class="fas fa-user"></i>
+                    </div>
+                    <div class="author-info">
+                        <div class="author-name">أحمد علي</div>
+                        <div class="post-time">منذ 8 ساعات</div>
+                    </div>
+                </div>
+                <button class="post-menu">⋯</button>
+            </div>
+            <div class="post-content">
+                <p>جربت ميزة البث المباشر اليوم وكانت تجربة رائعة! أنصحكم بتجربتها.</p>
+            </div>
+            <div class="post-stats">
+                <div class="likes-count">
+                    <i class="fas fa-thumbs-up"></i>
+                    <span>215</span>
+                </div>
+                <div class="comments-share">
+                    <span>42 تعليق</span>
+                    <span>18 مشاركات</span>
+                </div>
+            </div>
+            <div class="post-actions">
+                <button class="post-action like-button">
+                    <i class="far fa-thumbs-up"></i>
+                    <span>إعجاب</span>
+                </button>
+                <button class="post-action">
+                    <i class="far fa-comment"></i>
+                    <span>تعليق</span>
+                </button>
+                <button class="post-action">
+                    <i class="far fa-share-square"></i>
+                    <span>مشاركة</span>
+                </button>
+            </div>
+        </div>
+    </main>
+
+    <!-- صفحة المراسلة -->
+    <div class="page" id="messagesPage">
+        <div class="chats-container">
+            <div class="chat-item" data-chat="1">
+                <div class="chat-avatar">
+                    <i class="fas fa-user"></i>
+                </div>
+                <div class="chat-info">
+                    <div class="chat-name">محمد أحمد</div>
+                    <div class="chat-last-message">مرحباً! كيف حالك اليوم؟</div>
+                </div>
+                <div class="chat-time">10:45</div>
+                <div class="chat-unread">2</div>
+            </div>
+
+            <div class="chat-item" data-chat="2">
+                <div class="chat-avatar">
+                    <i class="fas fa-user"></i>
+                </div>
+                <div class="chat-info">
+                    <div class="chat-name">سارة عبدالله</div>
+                    <div class="chat-last-message">شكراً على المساعدة!</div>
+                </div>
+                <div class="chat-time">أمس</div>
+            </div>
+
+            <div class="chat-item" data-chat="3">
+                <div class="chat-avatar">
+                    <i class="fas fa-user"></i>
+                </div>
+                <div class="chat-info">
+                    <div class="chat-name">أحمد علي</div>
+                    <div class="chat-last-message">هل شاهدت المباراة البارحة؟</div>
+                </div>
+                <div class="chat-time">الجمعة</div>
+            </div>
+
+            <div class="chat-item" data-chat="4">
+                <div class="chat-avatar">
+                    <i class="fas fa-user"></i>
+                </div>
+                <div class="chat-info">
+                    <div class="chat-name">فاطمة محمد</div>
+                    <div class="chat-last-message">AI: اقترح لك أن ترد بـ "شكراً لك على التواصل!"</div>
+                </div>
+                <div class="chat-time">الأربعاء</div>
+                <div class="chat-unread">1</div>
+            </div>
+        </div>
+    </div>
+
+    <!-- صفحة المحادثة (مخفية بشكل افتراضي) -->
+    <div class="page" id="chatPage">
+        <div class="chat-header">
+            <button class="back-button" id="backToMessages">
+                <i class="fas fa-arrow-left"></i>
+            </button>
+            <div class="chat-name">محمد أحمد</div>
+        </div>
+
+        <div class="chat-messages">
+            <div class="message message-incoming">
+                <div class="message-text">مرحباً! كيف حالك اليوم؟</div>
+                <div class="message-time">10:45</div>
+            </div>
+
+            <div class="message message-outgoing">
+                <div class="message-text">أهلاً! أنا بخير، شكراً لك. كيف حالك؟</div>
+                <div class="message-time">10:46</div>
+            </div>
+
+            <div class="message message-incoming">
+                <div class="message-text">بخير أيضاً، شكراً. هل أنت حر للمقابلة غداً؟</div>
+                <div class="message-time">10:47</div>
+            </div>
+
+            <div class="message message-outgoing">
+                <div class="message-text">نعم، أنا متاح في أي وقت بعد الساعة الثانية.</div>
+                <div class="message-time">10:48</div>
+            </div>
+
+            <div class="message message-incoming">
+                <div class="message-text">ممتاز! سأراسلك لتحديد الوقت المناسب.</div>
+                <div class="message-time">10:50</div>
+            </div>
+
+            <div class="message message-ai">
+                <div class="message-text">AI: اقترح لك أن تقترح الساعة الثالثة ظهراً.</div>
+                <div class="message-time">الآن</div>
+            </div>
+        </div>
+
+        <div class="message-input-container">
+            <button class="emoji-button">
+                <i class="fas fa-smile"></i>
+            </button>
+            <input type="text" class="message-input" placeholder="اكتب رسالة...">
+            <button class="send-button">
+                <i class="fas fa-paper-plane"></i>
+            </button>
+        </div>
+    </div>
+
+    <!-- صفحة الفيديو -->
+    <div class="page" id="videoPage">
+        <div class="video-container">
+            <div class="video-item">
+                <div class="video-placeholder">فيديو تجريبي - TikTok Style</div>
+                <div class="video-info">
+                    <div class="video-author">
+                        <div class="user-avatar">
+                            <i class="fas fa-user"></i>
+                        </div>
+                        <div class="author-name">@user123</div>
+                    </div>
+                    <div class="video-description">
+                        هذا فيديو تجريبي لميزة الفيديو في Obbie Chat!
+                    </div>
+                    <div class="video-actions">
+                        <div class="video-action">
+                            <i class="fas fa-heart"></i>
+                            <span>1.2K</span>
+                        </div>
+                        <div class="video-action">
+                            <i class="fas fa-comment"></i>
+                            <span>245</span>
+                        </div>
+                        <div class="video-action">
+                            <i class="fas fa-share"></i>
+                            <span>78</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+ >   <!-- صفحة الأصدقاء -->
+    <div class="page" id="friendsPage">
+        <div class="friends-container">
+            <div class="friend-item">
+                <div class="user-avatar">
+                    <i class="fas fa-user"></i>
+                </div>
+                <div class="friend-info">
+                    <div class="friend-name">محمد أحمد</div>
+                    <div class="friend-mutual">15 صديق مشترك</div>
+                </div>
+                <button class="friend-action">إضافة</button>l
+            </div>
+
+            <div class="friend-item">
+                <div class="user-avatar">
+                    <i class="fas fa-user"></i>
+                </div>
+                <div class="friend-info">
+                    <div class="friend-name">سارة عبدالله</div>
+                    <div class="friend-mutual">8 أصدقاء مشتركين</div>
+                </div>
+                <button class="friend-action">إضافة</button>
+            </div>
+
+            <div class="friend-item">
+                <div class="user-avatar">
+                    <i class="fas fa-user"></i>
+                </div>
+                <div class="friend-info">
+                    <div class="friend-name">أحمد علي</div>
+                    <div class="friend-mutual">22 صديق مشترك</div>
+                </div>
+                <button class="friend-action">إضافة</button>
+            </div>
+
+            <div class="friend-item">
+                <div class="user-avatar">
+                    <i class="fas fa-user"></i>
+                </div>
+                <div class="friend-info">
+                    <div class="friend-name">فاطمة محمد</div>
+                    <div class="friend-mutual">5 أصدقاء مشتركين</div>
+                </div>
+                <button class="friend-action">إضافة</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- صفحة الإعدادات -->
+    <div class="page" id="settingsPage">
+        <div class="settings-container">
+            <div class="settings-item">
+                <div class="settings-icon">
+                    <i class="fas fa-user"></i>
+                </div>
+                <div class="settings-info">
+                    <div class="settings-title">الحساب</div>
+                    <div class="settings-desc">إدارة معلومات حسابك</div>
+                </div>
+                <i class="settings-arrow fas fa-chevron-left"></i>
+            </div>
+
+            <div class="settings-item">
+                <div class="settings-icon">
+                    <i class="fas fa-bell"></i>
+                </div>
+                <div class="settings-info">
+                    <div class="settings-title">الإشعارات</div>
+                    <div class="settings-desc">التحكم بالإشعارات والتنبيهات</div>
+                </div>
+                <i class="settings-arrow fas fa-chevron-left"></i>
+            </div>
+
+            <div class="settings-item">
+                <div class="settings-icon">
+                    <i class="fas fa-lock"></i>
+                </div>
+                <div class="settings-info">
+                    <div class="settings-title">الخصوصية</div>
+                    <div class="settings-desc">إعدادات الخصوصية والأمان</div>
+                </div>
+                <i class="settings-arrow fas fa-chevron-left"></i>
+            </div>
+
+            <div class="settings-item">
+                <div class="settings-icon">
+                    <i class="fas fa-moon"></i>
+                </div>
+                <div class="settings-info">
+                    <div class="settings-title">المظهر</div>
+                    <div class="settings-desc">وضع الليل والمظهر المخصص</div>
+                </div>
+                <i class="settings-arrow fas fa-chevron-left"></i>
+            </div>
+
+            <div class="settings-item">
+                <div class="settings-icon">
+                    <i class="fas fa-language"></i>
+                </div>
+                <div class="settings-info">
+                    <div class="settings-title">اللغة</div>
+                    <div class="settings-desc">تغيير لغة التطبيق</div>
+                </div>
+                <i class="settings-arrow fas fa-chevron-left"></i>
+            </div>
+
+            <div class="settings-item">
+                <div class="settings-icon">
+                    <i class="fas fa-robot"></i>
+                </div>
+                <div class="settings-info">
+                    <div class="settings-title">مساعد الذكاء الاصطناعي</div>
+                    <div class="settings-desc">إعدادات المساعد الافتراضي</div>
+                </div>
+                <i class="settings-arrow fas fa-chevron-left"></i>
+            </div>
+        </div>
+    </div>
+
+    <!-- شريط التنقل السفلي -->
+    <nav class="bottom-nav">
+        <div class="nav-item active" data-page="homePage">
+            <i class="fas fa-home"></i>
+            <span> الرئيسية</span>
+        </div>
+        <div class="nav-item" data-page="friendsPage">
+            <i class="fas fa-users"></i>
+            <span>الأصدقاء</span>
+        </div>
+        <div class="nav-item" data-page="videoPage">
+            <i class="fas fa-video"></i>
+            <span>الفيديو</span>
+        </div>
+        <div class="nav-item" data-page="messagesPage">
+            <i class="fas fa-comment"></i>
+            <span>المراسلة</span>
+        </div>
+        <div class="nav-item" data-page="settingsPage">
+            <i class="fas fa-cog"></i>
+            <span>الإعدادات</span>
+        </div>
+    </nav>
+
+    <!-- نافذة إنشاء منشور -->
+    <div class="modal" id="createPostModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2>إنشاء منشور</h2>
+                <button class="close-modal" id="closeModal">&times;</button>
+            </div>
+            <div class="modal-body">
+                <textarea class="post-textarea" placeholder="ماذا يدور في ذهنك؟"></textarea>
+                <div class="add-to-post">
+                    <button title="إضافة صورة"><i class="fas fa-image"></i></button>
+                    <button title="إضافة فيديو"><i class="fas fa-video"></i></button>
+                    <button title="إضافة شعور"><i class="fas fa-smile"></i></button>
+                    <button title="إضافة موقع"><i class="fas fa-map-marker-alt"></i></button>
+                </div>
+            </div>
+            <div class="modal-actions">
+                <div class="add-to-post">
+                    <button title="إضافة صورة"><i class="fas fa-image"></i></button>
+                    <button title="إضافة فيديو"><i class="fas fa-video"></i></button>
+                    <button title="إضافة شعور"><i class="fas fa-smile"></i></button>
+                    <button title="إضافة موقع"><i class="fas fa-map-marker-alt"></i></button>
+                </div>
+                <button class="submit-post" id="submitPost">نشر</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- إشعار -->
+    <div class="notification" id="notification">
+        تم نشر منشورك بنجاح!
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // عناصر DOM
+            const createPostButton = document.getElementById('createPostButton');
+            const createPostModal = document.getElementById('createPostModal');
+            const closeModal = document.getElementById('closeModal');
+            const submitPost = document.getElementById('submitPost');
+            const notification = document.getElementById('notification');
+            const likeButtons = document.querySelectorAll('.like-button');
+            const searchIcon = document.querySelector('.header-icon.search');
+            const searchContainer = document.getElementById('searchContainer');
+            const messagesIcon = document.getElementById('messagesIcon');
+            const navItems = document.querySelectorAll('.nav-item');
+            const pages = document.querySelectorAll('.page');
+            const chatItems = document.querySelectorAll('.chat-item');
+            const backToMessages = document.getElementById('backToMessages');
+            const chatPage = document.getElementById('chatPage');
+            const messagesPage = document.getElementById('messagesPage');
+            
+            // فتح نافذة إنشاء منشور
+            createPostButton.addEventListener('click', function() {
+                createPostModal.style.display = 'flex';
+                document.body.style.overflow = 'hidden';
+            });
+
+            // إغلاق نافذة إنشاء منشور
+            closeModal.addEventListener('click', function() {
+                createPostModal.style.display = 'none';
+                document.body.style.overflow = 'auto';
+            });
+
+            // نشر منشور جديد
+            submitPost.addEventListener('click', function() {
+                createPostModal.style.display = 'none';
+                document.body.style.overflow = 'auto';
+                
+                // عرض الإشعار
+                notification.style.display = 'block';
+                setTimeout(function() {
+                    notification.style.display = 'none';
+                }, 3000);
+            });
+
+            // تفاعل الإعجاب
+            likeButtons.forEach(button => {
+                button.addEventListener('click', function() {
+                    const icon = this.querySelector('i');
+                    if (icon.classList.contains('far')) {
+                        icon.classList.remove('far');
+                        icon.classList.add('fas');
+                        this.classList.add('liked');
+                    } else {
+                        icon.classList.remove('fas');
+                        icon.classList.add('far');
+                        this.classList.remove('liked');
+                    }
+                });
+            });
+
+            // تفاعل شريط البحث
+            searchIcon.addEventListener('click', function() {
+                if (searchContainer.style.display === 'block') {
+                    searchContainer.style.display = 'none';
+                } else {
+                    searchContainer.style.display = 'block';
+                }
+            });
+
+            // الانتقال إلى صفحة المراسلة
+            messagesIcon.addEventListener('click', function() {
+                switchPage('messagesPage');
+                updateNavbar('messagesPage');
+            });
+
+            // تغيير الصفحات من شريط التنقل
+            navItems.forEach(item => {
+                item.addEventListener('click', function() {
+                    const pageId = this.getAttribute('data-page');
+                    switchPage(pageId);
+                    updateNavbar(pageId);
+                });
+            });
+
+            // فتح المحادثة
+            chatItems.forEach(item => {
+                item.addEventListener('click', function() {
+                    const chatId = this.getAttribute('data-chat');
+                    switchPage('chatPage');
+                });
+            });
+
+            // العودة إلى قائمة المحادثات
+            backToMessages.addEventListener('click', function() {
+                switchPage('messagesPage');
+            });
+
+            // إغلاق النافذة عند النقر خارجها
+            window.addEventListener('click', function(event) {
+                if (event.target === createPostModal) {
+                    createPostModal.style.display = 'none';
+                    document.body.style.overflow = 'auto';
+                }
+            });
+
+            // وظيفة تغيير الصفحة
+            function switchPage(pageId) {
+                pages.forEach(page => {
+                    page.classList.remove('active');
+                });
+                document.getElementById(pageId).classList.add('active');
+            }
+
+            // تحديث شريط التنقل السفلي
+            function updateNavbar(pageId) {
+                navItems.forEach(item => {
+                    item.classList.remove('active');
+                    if (item.getAttribute('data-page') === pageId) {
+                        item.classList.add('active');
+                    }
+                });
+            }
+
+            // محاكاة ميزات الذكاء الاصطناعي
+            const messageInput = document.querySelector('.message-input');
+            const sendButton = document.querySelector('.send-button');
+            
+            sendButton.addEventListener('click', function() {
+                if (messageInput.value.trim() !== '') {
+                    // إضافة رسالة جديدة
+                    const messagesContainer = document.querySelector('.chat-messages');
+                    const newMessage = document.createElement('div');
+                    newMessage.className = 'message message-outgoing';
+                    newMessage.innerHTML = `
+                        <div class="message-text">${messageInput.value}</div>
+                        <div class="message-time">الآن</div>
+                    `;
+                    messagesContainer.appendChild(newMessage);
+                    
+                    // مسح حقل الإدخال
+                    messageInput.value = '';
+                    
+                    // محاكاة رد الذكاء الاصطناعي بعد ثانية
+                    setTimeout(() => {
+                        const aiMessage = document.createElement('div');
+                        aiMessage.className = 'message message-ai';
+                        aiMessage.innerHTML = `
+                            <div class="message-text">AI: هذه محاكاة لرد الذكاء الاصطناعي. يمكنني مساعدتك في الرد على الرسائل!</div>
+                            <div class="message-time">الآن</div>
+                        `;
+                        messagesContainer.appendChild(aiMessage);
+                        messagesContainer.scrollTop = messagesContainer.scrollHeight;
+                    }, 1000);
+                    
+                    // التمرير إلى الأسفل
+                    messagesContainer.scrollTop = messagesContainer.scrollHeight;
+                }
+            });
+
+            // إرسال الرسالة عند الضغط على Enter
+            messageInput.addEventListener('keypress', function(e) {
+                if (e.key === 'Enter') {
+                    sendButton.click();
+                }
+            });
+        });
+    </script>
+</body>
+</html>
+<!-- partial -->
+  
+</body>
+</html>
